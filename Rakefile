@@ -21,6 +21,7 @@ begin
   end
   Jeweler::RubyforgeTasks.new do |rubyforge|
     rubyforge.doc_task = "rdoc"
+    rubyforge.remote_doc_path = ""
   end
 rescue LoadError
   puts "To prepare a gem, please install the jeweler gem."
