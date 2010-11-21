@@ -1,0 +1,43 @@
+= FFruby
+
+FFruby is a Ruby interface to FFmpeg's libavformat and libavcodec. It allows you to query metadata from a wide variety of media files through some simple classes. FFmpeg's libraries are required and also the development headers if building.
+
+== FAQ
+
+=== Where do I go for support and contributions?
+
+We are hosted by RubyForge at http://rubyforge.org/projects/ffruby.
+
+=== Where do I get the latest version?
+
+It should be available through RubyGems as ffruby. Failing that, try RubyForge.
+
+=== What about transcoding?
+
+I still start FFmpeg through a subshell when I need to transcode something. There is little to be gained from doing this within Ruby itself. Other than requiring a fair amount of work, one major disadvantage is that if FFmpeg segfaults (which it has been known to do), it will bring the entire Ruby process down with it, which is probably something you want to avoid.
+
+=== So what is this good for?
+
+Being able to reliably read the source file's metadata is very important in deciding how it should be transcoded, or whether it even needs to be transcoded at all. This is not something you want to rely on a subshell for as that would involve awkward parsing of FFmpeg's output, which does change between versions.
+
+== Changes
+
+=== 0.2.0 (2010/11/18)
+
+- Reworked class structure under common FFruby module.
+- Compatibility with old and new FFmpeg versions.
+- Safer memory handling.
+- RDoc documentation.
+- Repackaged using Jeweler.
+
+=== 0.1 (2007/07/26), 0.0.1 (2008/01/11)
+
+- More or less the same original version. Latter was the initial gem release.
+
+== Authors
+
+- James Le Cuirot <chewi@aura-online.co.uk>
+
+== Copyright
+
+Copyright (c) 2007-2010 James Le Cuirot. See LICENSE for details.
