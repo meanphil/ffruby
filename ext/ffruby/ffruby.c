@@ -23,11 +23,47 @@
 extern void Init_ffrf();
 extern void Init_ffrs();
 
-/* Top level module for the FFruby classes. Nothing to see here. */
+/* Returns an array of the input and output formats supported by
+ * FFmpeg. This method will hopefully be expanded to return more than
+ * just names in the future. */
+static VALUE ffruby_formats(VALUE self, VALUE klass)
+{
+	AVInputFormat *ifmt;
+	AVOutputFormat *ofmt;
+	VALUE array = rb_ary_new();
+
+	for (ifmt = av_iformat_next(NULL); ifmt; ifmt = av_iformat_next(ifmt))
+		rb_ary_push(array, rb_str_new2(ifmt->name));
+
+	for (ofmt = av_oformat_next(NULL); ofmt; ofmt = av_oformat_next(ofmt))
+		rb_ary_push(array, rb_str_new2(ofmt->name));
+
+	return rb_funcall(rb_funcall(array, rb_intern("uniq"), 0), rb_intern("sort"), 0);
+}
+
+/* Returns an array of the codecs supported by FFmpeg. This method
+ * will hopefully be expanded to return more than just names in the
+ * future. */
+static VALUE ffruby_codecs(VALUE self, VALUE klass)
+{
+	AVCodec *codec;
+	VALUE array = rb_ary_new();
+
+	for (codec = av_codec_next(NULL); codec; codec = av_codec_next(codec))
+		rb_ary_push(array, rb_str_new2(codec->name));
+
+	return rb_funcall(rb_funcall(array, rb_intern("uniq"), 0), rb_intern("sort"), 0);
+}
+
+/* Top level module for the FFruby classes. Provides access to
+ * information about FFmpeg itself. */
 void Init_ffruby()
 {
 	av_register_all();
+
 	mFFruby = rb_define_module("FFruby");
+	rb_define_module_function(mFFruby, "formats", ffruby_formats, 0);
+	rb_define_module_function(mFFruby, "codecs", ffruby_codecs, 0);
 
 	Init_ffrf();
 	Init_ffrs();

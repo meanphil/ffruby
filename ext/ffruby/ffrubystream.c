@@ -169,8 +169,7 @@ static VALUE ffras_sample_rate(VALUE self)
  * Creates an FFruby::Stream instance using the given FFruby::File and
  * stream index. This should usually only be called by FFruby
  * itself. Access stream instances using FFruby::File#streams
- * instead.
- */
+ * instead. */
 static VALUE ffrs_initialize(VALUE self, VALUE file, VALUE index)
 {
 	AVFormatContext *fmt;
@@ -193,8 +192,7 @@ void Init_ffrs()
 /* Document-class: FFruby::Stream
  *
  * An interface to FFmpeg on any type of stream. Provides access
- * to generic metadata.
- */
+ * to generic metadata. */
 	cFFrubyStream = rb_define_class_under(mFFruby, "Stream", rb_cObject);
 	rb_define_alloc_func(cFFrubyStream, ffrs_alloc);
 	rb_define_method(cFFrubyStream, "initialize", ffrs_initialize, 2);
@@ -205,8 +203,7 @@ void Init_ffrs()
 /* Document-class: FFruby::VideoStream
  *
  * An interface to FFmpeg on video streams. Provides access to
- * video metadata.
- */
+ * video metadata. */
 	cFFrubyVideoStream = rb_define_class_under(mFFruby, "VideoStream", cFFrubyStream);
 	rb_define_method(cFFrubyVideoStream, "width", ffrvs_width, 0);
 	rb_define_method(cFFrubyVideoStream, "height", ffrvs_height, 0);
@@ -218,8 +215,7 @@ void Init_ffrs()
 /* Document-class: FFruby::AudioStream
  *
  * An interface to FFmpeg on audio streams. Provides access to
- * audio metadata.
- */
+ * audio metadata. */
 	cFFrubyAudioStream = rb_define_class_under(mFFruby, "AudioStream", cFFrubyStream);
 	rb_define_method(cFFrubyAudioStream, "channels", ffras_channels, 0);
 	rb_define_method(cFFrubyAudioStream, "sample_rate", ffras_sample_rate, 0);

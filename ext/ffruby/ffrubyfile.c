@@ -203,8 +203,7 @@ static VALUE ffrf_audio_streams(VALUE self)
 /* call-seq:
  *   new(filename) -> FFruby::File
  *
- * Creates an FFruby::File instance using the given filename.
- */
+ * Creates an FFruby::File instance using the given filename. */
 static VALUE ffrf_initialize(VALUE self, VALUE filename)
 {
 	size_t len;
@@ -242,8 +241,7 @@ static VALUE ffrf_initialize(VALUE self, VALUE filename)
 /* Document-class: FFruby::File
  *
  * An interface to FFmpeg on existing files. Provides access to
- * metadata and stream instances.
- */
+ * metadata and stream instances. */
 void Init_ffrf()
 {
 	cFFrubyFile = rb_define_class_under(mFFruby, "File", rb_cObject);
