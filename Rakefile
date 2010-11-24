@@ -19,6 +19,7 @@ begin
     gem.files = RDOC_FILES + [ "LICENSE", "Rakefile", "VERSION", "ext/ffruby/{extconf.rb,ffruby.h}" ]
     gem.extra_rdoc_files = RDOC_FILES 
   end
+  Jeweler::GemcutterTasks.new
   Jeweler::RubyforgeTasks.new do |rubyforge|
     rubyforge.doc_task = "rdoc"
     rubyforge.remote_doc_path = ""
