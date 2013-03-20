@@ -162,10 +162,10 @@ static VALUE ffrf_streams(VALUE self)
 
 			switch (fmt->streams[i]->codec->codec_type)
 			{
-				case CODEC_TYPE_VIDEO:
+				case AVMEDIA_TYPE_VIDEO:
 					rb_ary_push(streams, rb_class_new_instance(2, args, cFFrubyVideoStream));
 					break;
-				case CODEC_TYPE_AUDIO:
+				case AVMEDIA_TYPE_AUDIO:
 					rb_ary_push(streams, rb_class_new_instance(2, args, cFFrubyAudioStream));
 					break;
 				default:
