@@ -37,7 +37,7 @@ static void ffrf_free(AVFormatContext *fmt)
 				avcodec_close(fmt->streams[i]->codec);
 		}
 
-		av_close_input_file(fmt);
+		avformat_free_context(fmt);
 	}
 }
 
@@ -53,60 +53,69 @@ static AVFormatContext* ffrf_get_fmt(VALUE self)
 	return fmt;
 }
 
+/* Returns the value of whatever metadata tag
+   we ask for */
+static VALUE ffrf_metadata_tag(const char *tagname, VALUE self) 
+{
+	AVDictionaryEntry *tag;
+	AVFormatContext *fmt = ffrf_get_fmt(self);
+       
+    tag = av_dict_get(fmt->metadata, tagname, NULL, 0);
+    
+    if(tag) {
+    	return rb_str_new2(tag->value);
+    } else {
+    	return Qnil;
+    }
+}
+
 /* Returns the title string. */
 static VALUE ffrf_title(VALUE self)
 {
-	AVFormatContext *fmt = ffrf_get_fmt(self);
-	return rb_str_new2(fmt->title);
+	return ffrf_metadata_tag("title", self);
 }
 
 /* Returns the author string. */
 static VALUE ffrf_author(VALUE self)
 {
-	AVFormatContext *fmt = ffrf_get_fmt(self);
-	return rb_str_new2(fmt->author);
+	return ffrf_metadata_tag("author", self);
 }
 
 /* Returns the copyright string. */
 static VALUE ffrf_copyright(VALUE self)
 {
-	AVFormatContext *fmt = ffrf_get_fmt(self);
-	return rb_str_new2(fmt->copyright);
+	return ffrf_metadata_tag("copyright", self);
 }
 
 /* Returns the comment string. */
 static VALUE ffrf_comment(VALUE self)
 {
-	AVFormatContext *fmt = ffrf_get_fmt(self);
-	return rb_str_new2(fmt->comment);
+	return ffrf_metadata_tag("comment", self);
+
 }
 
 /* Returns the album string. */
 static VALUE ffrf_album(VALUE self)
 {
-	AVFormatContext *fmt = ffrf_get_fmt(self);
-	return rb_str_new2(fmt->album);
+	return ffrf_metadata_tag("album", self);
 }
 
 /* Returns the genre string. */
 static VALUE ffrf_genre(VALUE self)
 {
-	AVFormatContext *fmt = ffrf_get_fmt(self);
-	return rb_str_new2(fmt->genre);
+	return ffrf_metadata_tag("genre", self);
 }
 
 /* Returns the year. */
 static VALUE ffrf_year(VALUE self)
 {
-	AVFormatContext *fmt = ffrf_get_fmt(self);
-	return INT2NUM(fmt->year);
+	return ffrf_metadata_tag("year", self);
 }
 
 /* Returns the track number. */
 static VALUE ffrf_track(VALUE self)
 {
-	AVFormatContext *fmt = ffrf_get_fmt(self);
-	return INT2NUM(fmt->track);
+	return ffrf_metadata_tag("track", self);
 }
 
 /* Returns the duration in seconds as a float. */
@@ -214,7 +223,9 @@ static VALUE ffrf_initialize(VALUE self, VALUE filename)
 	VALUE filename_str = rb_funcall(filename, rb_intern("to_s"), 0);
     char* filename_ptr = RSTRING(filename_str)->ptr;
 
-	if (av_open_input_file(&fmt, filename_ptr, NULL, 0, NULL) != 0)
+    fmt = avformat_alloc_context();
+
+	if (avformat_open_input(&fmt, filename_ptr, NULL, NULL) != 0)
 	{
 		len = strlen("Cannot open file !") + strlen(filename_ptr) + 1;
 		msg = ALLOC_N(char, len);

@@ -24,6 +24,8 @@
 #include <ruby.h>
 #include AVFORMAT_H_PATH
 #include AVCODEC_H_PATH
+#include <libavutil/dict.h>
+
 
 VALUE mFFruby;
 VALUE cFFrubyFile;
