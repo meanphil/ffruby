@@ -2,7 +2,7 @@
 
 require "mkmf"
 
-dir_config("ffmpeg", [ "/usr/include", "/usr/local/include", "/opt/include", "/opt/local/include" ], [ "/lib", "/usr/lib", "/usr/local/lib" ])
+dir_config("ffmpeg", [ "/usr/include", "/usr/local/include", "/usr/local/include/ffmpeg1", "/opt/include", "/opt/local/include" ], [ "/lib", "/usr/lib", "/usr/local/lib" ])
 
 %w( avformat avcodec ).each do |lib|
   header = "#{lib}.h"

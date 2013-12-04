@@ -188,7 +188,7 @@ static VALUE ffrf_av_streams(VALUE self, VALUE klass)
 	typed_streams = rb_ary_new();
 	Check_Type(streams, T_ARRAY);
 
-	for (i = 0; i < RARRAY(streams)->len; i++)
+	for (i = 0; i < RARRAY_LEN(streams); i++)
 	{
 		if (rb_obj_is_kind_of((stream = rb_ary_entry(streams, i)), klass))
 			rb_ary_push(typed_streams, stream);
@@ -221,7 +221,7 @@ static VALUE ffrf_initialize(VALUE self, VALUE filename)
 	VALUE exception;
 
 	VALUE filename_str = rb_funcall(filename, rb_intern("to_s"), 0);
-    char* filename_ptr = RSTRING(filename_str)->ptr;
+    char* filename_ptr = RSTRING_PTR(filename_str);
 
     fmt = avformat_alloc_context();
 
